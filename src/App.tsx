@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import styled from 'styled-components'
+import Header from './components/Header'
+import Search from './components/Search/index'
+import TableStudents from './components/tableStudents'
 
-function App() {
+const SectionTitle = styled.h2`
+  margin: 4.5rem 0 3rem;
+  font-weight: bold;
+  font-size: 2.5rem;
+  @media (max-width: 480px) {
+    font-size: 1.875rem;
+  }
+`
+
+const Main = styled.main`
+  padding: 0 8.5%;
+  max-width: 1440px;
+  margin: 0 auto;
+`
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Header />
+      <Main>
+        <SectionTitle>Студенты</SectionTitle>
+        <Search />
+        <TableStudents />
+      </Main>
+    </>
+  )
 }
 
-export default App;
+export default App
