@@ -9,7 +9,7 @@ const HeaderContent = styled.header`
 const Logo = styled.a`
   color: #000;
   text-decoration: none;
-  padding: 1.5rem 8.5%;
+  padding: 1.375rem 8.5%;
   display: flex;
   align-items: center;
   justify-content: flex-start;

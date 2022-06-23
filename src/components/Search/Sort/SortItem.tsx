@@ -13,10 +13,10 @@ const SelectedIcon = styled.img<{ selected: boolean }>`
     `}
 `
 
-const Item = styled.li<{ selected: boolean }>`
+const ListItem = styled.li<{ selected: boolean }>`
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 500;
@@ -29,23 +29,23 @@ const Item = styled.li<{ selected: boolean }>`
 
 const SortItem: React.FC<{
   typeSort: TypeSort
-  setIsToggleDropdown(IsToggleDropdown: boolean): void
-}> = (props) => {
+  handlerOpen(state: boolean): void
+}> = ({ typeSort, handlerOpen }) => {
   return (
-    <Item
+    <ListItem
       onClick={() => {
-        students.changeSelectedTypeSort(props.typeSort)
-        props.setIsToggleDropdown(false)
+        students.changeSelectedTypeSort(typeSort)
+        handlerOpen(false)
       }}
-      selected={students.selectedTypeSort === props.typeSort}
+      selected={students.selectedTypeSort === typeSort}
     >
-      {TypeSort[props.typeSort]}
+      {TypeSort[typeSort]}
       <SelectedIcon
-        selected={students.selectedTypeSort === props.typeSort}
+        selected={students.selectedTypeSort === typeSort}
         src={check}
         alt="checked"
       />
-    </Item>
+    </ListItem>
   )
 }
 

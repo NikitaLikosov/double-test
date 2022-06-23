@@ -1,13 +1,13 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import SortItem from './SortItem'
-import students, { TypeSort } from './../../../store/students'
+import students, { TypeSort } from '../../../store/students'
 import { observer } from 'mobx-react-lite'
 import sort from './../../../assets/images/sort.svg'
 
-const Background = styled.div<{ isToggleDropdown: boolean }>`
-  ${({ isToggleDropdown }) =>
-    isToggleDropdown &&
+const Background = styled.div<{ isOpen: boolean }>`
+  ${({ isOpen }) =>
+    isOpen &&
     css`
       position: fixed;
       top: 0;
@@ -20,27 +20,27 @@ const Background = styled.div<{ isToggleDropdown: boolean }>`
 const SortContainer = styled.div`
   position: relative;
 `
-const FilterIcon = styled.img`
+const SortIcon = styled.img`
   width: 1rem;
 `
 const MainText = styled.span`
   display: flex;
   justify-content: space-between;
   align-self: center;
-  padding: 1rem 0;
+  padding: 1rem 1.25rem;
   cursor: pointer;
 `
-const TextFilter = styled.span`
+const TextSort = styled.span`
   min-width: 8.5rem;
   margin-right: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     display: none;
     margin-right: 0;
   }
 `
-const SortList = styled.ul<{ isToggleDropdown: boolean }>`
+const SortList = styled.ul<{ isOpen: boolean }>`
   list-style-type: none;
   z-index: 1;
   position: absolute;
@@ -50,36 +50,44 @@ const SortList = styled.ul<{ isToggleDropdown: boolean }>`
   box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
   border-radius: 6px;
   background-color: white;
-  @media (max-width: 480px) {
+  transition: visibility 0s, opacity 0.5s linear;
+  visibility: visible;
+  opacity: 1;
+
+  @media (max-width: 768px) {
     left: -50vw;
     right: 0;
   }
-  ${({ isToggleDropdown }) =>
-    !isToggleDropdown &&
+  ${({ isOpen }) =>
+    !isOpen &&
     css`
-      display: none;
+      visibility: hidden;
+      opacity: 0;
     `};
 `
 
 const Sort: React.FC = observer(() => {
-  const [isToggleDropdown, setIsToggleDropdown] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
   return (
     <SortContainer>
-      <Background
-        isToggleDropdown={isToggleDropdown}
-        onClick={() => setIsToggleDropdown(false)}
-      ></Background>
-      <SortList isToggleDropdown={isToggleDropdown}>
-        <SortItem typeSort={0} setIsToggleDropdown={setIsToggleDropdown} />
-        <SortItem typeSort={1} setIsToggleDropdown={setIsToggleDropdown} />
-        <SortItem typeSort={2} setIsToggleDropdown={setIsToggleDropdown} />
-        <SortItem typeSort={3} setIsToggleDropdown={setIsToggleDropdown} />
-        <SortItem typeSort={4} setIsToggleDropdown={setIsToggleDropdown} />
-        <SortItem typeSort={5} setIsToggleDropdown={setIsToggleDropdown} />
+      <Background isOpen={isOpen} onClick={() => setIsOpen(false)}></Background>
+      <SortList isOpen={isOpen}>
+        {new Array(Object.keys(TypeSort).length / 2)
+          .fill(1)
+          .map((el, index) =>
+            index === 0
+              ? students.selectedTypeSort
+              : index === students.selectedTypeSort
+              ? 0
+              : index
+          )
+          .map((el) => (
+            <SortItem typeSort={el} handlerOpen={setIsOpen} />
+          ))}
       </SortList>
-      <MainText onClick={() => setIsToggleDropdown(true)}>
-        <TextFilter>{TypeSort[students.selectedTypeSort]}</TextFilter>
-        <FilterIcon src={sort} alt="sort" />
+      <MainText onClick={() => setIsOpen(true)}>
+        <TextSort>{TypeSort[students.selectedTypeSort]}</TextSort>
+        <SortIcon src={sort} alt="Sort" />
       </MainText>
     </SortContainer>
   )

@@ -4,11 +4,11 @@ import Header from './components/Header'
 import Search from './components/Search/index'
 import TableStudents from './components/tableStudents'
 
-const SectionTitle = styled.h2`
+const Title = styled.h1`
   margin: 4.5rem 0 3rem;
   font-weight: bold;
   font-size: 2.5rem;
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 1.875rem;
   }
 `
@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <>
       <Header />
       <Main>
-        <SectionTitle>Студенты</SectionTitle>
+        <Title>Студенты</Title>
         <Search />
         <TableStudents />
       </Main>

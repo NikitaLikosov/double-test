@@ -1,3 +1,5 @@
-# Getting Started with Create React App
+# Getting Started
 
-npm i ;npm start
+npm i
+
+npm start

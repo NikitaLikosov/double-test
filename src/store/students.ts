@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { action, computed, makeAutoObservable, observable } from 'mobx'
 
 export enum TypeSort {
   'Имя А-Я',
@@ -14,7 +14,7 @@ interface IStudentServ {
   group: string
   color: string
   rating: string
-  specialty: string
+  specialty: 'kb' | 'kn' | 'mt'
   birthday: string
   avatar: string
 }
@@ -25,15 +25,19 @@ export interface IStudent {
   group: string
   color: string
   rating: string
-  specialty: string
+  specialty: 'kb' | 'kn' | 'mt'
   age: number
   avatar: string
 }
 
-export default new (class Students {
-  selectedTypeSort = TypeSort['Имя А-Я']
+class Students {
+  @observable selectedTypeSort = TypeSort['Имя А-Я']
 
-  searchText: string = ''
+  @observable searchText: string = ''
+
+  @action changeSearchText = (text: string) => {
+    this.searchText = text
+  }
 
   private _students: IStudent[] = []
 
@@ -55,7 +59,6 @@ export default new (class Students {
           student
         )
       })
-      console.log(this.students)
     }
   }
 
@@ -75,7 +78,7 @@ export default new (class Students {
   removeStudent = (id: number): void => {
     this._students = this._students.filter((st: any): boolean => st.id !== id)
   }
-  public get students(): IStudent[] {
+  @computed get students(): IStudent[] {
     const searchStudents = this._students.filter(({ name }) =>
       name.includes(this.searchText)
     )
@@ -99,4 +102,6 @@ export default new (class Students {
       name.toLowerCase().includes(this.searchText.toLowerCase())
     )
   }
-})()
+}
+
+export default new Students()
